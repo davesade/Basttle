@@ -1,0 +1,11 @@
+{
+  "name": "Basttle!",
+  "short_name": "Basttle!",
+  "description": "Offline taktická letecká hra na čtverečkovaném papíře.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7fbff",
+  "theme_color": "#f7fbff",
+  "lang": "cs"
+}

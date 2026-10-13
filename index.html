@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7fbff">
+  <meta name="description" content="Basttle! — offline taktická letecká hra na čtverečkovaném papíře.">
+  <title>Basttle!</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Basttle!, úvodní stránka">
+        <span class="brand-mark" aria-hidden="true">▦</span>
+        <span>Basttle!</span>
+        <span class="prototype">PROTOTYP</span>
+      </a>
+      <span class="topbar-label">LETOVÝ PROTOTYP</span>
+    </header>
+
+    <section class="game-layout" aria-label="Herní plocha">
+      <aside class="sidebar">
+        <div class="section-heading">
+          <div>
+          <p class="eyebrow">PROTOTYP · JEDEN HRÁČ</p>
+            <h1>Váš tah</h1>
+          </div>
+          <span id="turnBadge" class="turn-badge">1</span>
+        </div>
+
+        <div id="players" class="players" aria-label="Hráč"></div>
+
+        <div class="divider"></div>
+
+        <div class="turn-card">
+          <span class="turn-dot" id="activeDot"></span>
+          <div><span class="muted-label">AKTIVNÍ PILOT</span><strong id="activeName">Hráč</strong></div>
+          <span class="turn-arrow" aria-hidden="true">↗</span>
+        </div>
+        <p id="flightHelp" class="hint">Rozjeď se po dráze 0 → 1 → 2. Ve vzduchu rychlost 1 znamená havárii; přistání: 2 → 1 → 0 na dráze.</p>
+        <div class="sidebar-foot"><span class="offline-dot"></span> Hra se ukládá v tomto zařízení</div>
+      </aside>
+
+      <section class="board-wrap" aria-label="Čtverečkovaný papír">
+        <div class="board-toolbar"><span><span class="live-dot"></span> HERNÍ PLOCHA</span><span id="boardHelp">Ťukni na jeden z 9 bodů</span></div>
+        <div id="boardViewport" class="board-viewport">
+          <canvas id="board" aria-label="Herní plocha. Ťuknutím nebo kliknutím vyber jeden z devíti průsečíků obrysu."></canvas>
+          <div class="board-hud" aria-label="Ovládání hry">
+            <div class="resource-row" aria-label="Zásoby letadla">
+              <div class="resource-card score-card"><span>SKÓRE</span><strong id="scoreCount">0</strong></div>
+              <div class="resource-card"><span>PALIVO</span><strong id="fuelCount">999</strong></div>
+              <div class="resource-card"><span>MUNICE</span><strong id="ammoCount">999</strong></div>
+            </div>
+            <div class="hud-main-actions">
+              <button id="fireButton" class="button hud-fire" type="button">FIRE</button>
+              <button id="newGame" class="button hud-icon-button" type="button" aria-label="Restart levelu" title="Restart levelu">↻</button>
+              <button id="openMenu" class="button hud-icon-button" type="button" aria-label="Hlavní menu" title="Hlavní menu">☰</button>
+            </div>
+            <div class="hud-flight-actions">
+              <label class="mode-setting hud-mode" for="gameMode">Režim
+                <select id="gameMode">
+                  <option value="basic">BASIC</option>
+                  <option value="advance">ADVANCE</option>
+                </select>
+              </label>
+              <label class="mode-setting hud-mode" for="weatherMode">Počasí
+                <select id="weatherMode">
+                  <option value="sunny">Slunečno</option>
+                  <option value="night">Noc</option>
+                  <option value="storm">Bouřka</option>
+                  <option value="wind">Vítr</option>
+                </select>
+              </label>
+              <button id="finishTurn" class="button button-primary" type="button">Vybrat střed <span aria-hidden="true">→</span></button>
+              <button id="runwayAxis" class="button button-secondary runway-toggle" type="button">Dráha: vodorovná ↔</button>
+              <div class="tool-row">
+                <button id="undo" class="button button-secondary" type="button" aria-label="Vrátit poslední tah" title="Vrátit poslední tah">↶ <span>Zpět</span></button>
+                <button id="toggleGrid" class="button button-secondary is-active" type="button" aria-pressed="true">▦ <span>Mřížka</span></button>
+              </div>
+            </div>
+          </div>
+          <div id="emptyState" class="empty-state"><span class="empty-icon">⌖</span><strong>Vyber cíl letu</strong><span>Ťukni na jeden z devíti bodů v obrysu kolem Z.</span></div>
+          <div id="flightStatus" class="flight-status hidden" role="status" aria-live="polite"></div>
+          <div class="zoom-controls" aria-label="Přiblížení herní plochy">
+            <button id="zoomOut" type="button" aria-label="Oddálit" title="Oddálit">−</button>
+            <button id="zoomIn" type="button" aria-label="Přiblížit" title="Přiblížit">＋</button>
+            <button id="fitRoute" type="button" aria-label="Zobrazit celou cestu" title="Zobrazit celou cestu">Celá cesta</button>
+          </div>
+        </div>
+        <div class="board-footer"><span>✦ <span id="moveCount">0 tahů</span></span><span>Dráha 5 čtverců · start uprostřed</span></div>
+      </section>
+    </section>
+    <footer class="page-foot">Předběžný bod Z vychází z vektoru předchozího tahu.</footer>
+  </main>
+  <dialog id="confirmDialog" class="dialog">
+    <form method="dialog">
+      <span class="dialog-icon">↻</span>
+      <h2>Restartovat level?</h2>
+      <p>Letová stopa i aktuální stav hry se smažou. Orientace dráhy zůstane stejná.</p>
+      <div class="dialog-actions"><button class="button button-secondary" value="cancel">Pokračovat</button><button id="confirmNew" class="button button-primary" value="confirm">Restartovat</button></div>
+    </form>
+  </dialog>
+  <dialog id="menuDialog" class="dialog menu-dialog">
+    <div class="menu-content">
+      <header class="menu-header">
+        <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">▦</span><span>Basttle!</span></a>
+        <button id="menuResume" class="button button-secondary menu-resume" type="button">Pokračovat ve hře</button>
+      </header>
+      <section data-menu-screen="home" class="menu-screen">
+        <p class="eyebrow">TAKTICKÁ LETECKÁ HRA</p>
+        <h2>Hlavní menu</h2>
+        <p class="menu-lead">Vyber herní režim.</p>
+        <div class="mode-cards">
+          <button class="mode-card" type="button" data-open-menu="puzzle"><span class="mode-icon">⌖</span><strong>Puzzle</strong><small>Vyber jeden z deseti levelů.</small><span class="card-arrow">→</span></button>
+          <button class="mode-card" type="button" data-open-menu="arcade"><span class="mode-icon">✦</span><strong>Arcade</strong><small>Náhodná mapa a nepřátelská letadla řízená AI.</small><span class="card-arrow">→</span></button>
+          <button class="mode-card" type="button" data-open-menu="campaign"><span class="mode-icon">⑂</span><strong>Campaign</strong><small>Příběhová cesta s větvením doleva a doprava.</small><span class="card-arrow">→</span></button>
+          <button class="mode-card" type="button" data-open-menu="multiplayer"><span class="mode-icon">◎</span><strong>Multiplayer</strong><small>Hra pro dva a více hráčů, živě nebo proti AI.</small><span class="card-arrow">→</span></button>
+        </div>
+        <div class="menu-bottom-actions"><button id="menuRestart" class="button button-secondary" type="button">Restartovat aktuální level</button></div>
+      </section>
+
+      <section data-menu-screen="puzzle" class="menu-screen" hidden>
+        <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
+        <p class="eyebrow">REŽIM · PUZZLE</p><h2>Výběr levelu</h2>
+        <p class="menu-lead">Dokonči úkol a odemkni další výzvy.</p>
+        <div class="level-grid">
+          <button id="puzzleLevel1" class="level-card is-available" type="button"><span>01</span><strong>První let</strong><small>Prototypový level · k dispozici</small></button>
+          <button class="level-card" type="button" disabled><span>02</span><strong>Level 2</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>03</span><strong>Level 3</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>04</span><strong>Level 4</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>05</span><strong>Level 5</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>06</span><strong>Level 6</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>07</span><strong>Level 7</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>08</span><strong>Level 8</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>09</span><strong>Level 9</strong><small>Připravujeme</small></button>
+          <button class="level-card" type="button" disabled><span>10</span><strong>Level 10</strong><small>Připravujeme</small></button>
+        </div>
+      </section>
+
+      <section data-menu-screen="arcade" class="menu-screen" hidden>
+        <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
+        <p class="eyebrow">REŽIM · ARCADE</p><h2>Volné nebe</h2>
+        <p class="menu-lead">Mapa se vygeneruje náhodně. Nepřátelská letadla bude řídit AI.</p>
+        <div class="settings-card">
+          <label>Letadlo<select id="arcadeAircraft"><option value="f16">F-16 · standardní letadlo</option></select></label>
+          <label>Obtížnost AI<select id="arcadeDifficulty"><option value="easy">Lehká</option><option value="normal" selected>Střední</option><option value="hard">Těžká</option></select></label>
+          <div class="setting-note">Dostupné letadlo: F-16. Další typy později upraví pohyblivost, zbraně a munici.</div>
+          <button class="button button-primary menu-start" type="button" disabled>Připravujeme arcade režim</button>
+        </div>
+      </section>
+
+      <section data-menu-screen="campaign" class="menu-screen" hidden>
+        <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
+        <p class="eyebrow">REŽIM · CAMPAIGN</p><h2>Větvená kampaň</h2>
+        <p class="menu-lead">Po každém levelu zvolíš další trasu. Zásoby a počet letadel přecházejí mezi misemi.</p>
+        <div class="campaign-map" aria-label="Náhled větvení kampaně">
+          <div class="campaign-node current"><span>1</span><small>Start</small></div>
+          <div class="campaign-branches"><button type="button" disabled>← Doleva<br><small>Level 2 · připravujeme</small></button><button type="button" disabled>Doprava →<br><small>Level 3 · připravujeme</small></button></div>
+        </div>
+        <div class="setting-note">U každého dalšího levelu se zobrazí změna paliva, munice a dostupných letadel.</div>
+        <button class="button button-primary menu-start" type="button" disabled>Spustit kampaň · připravujeme</button>
+      </section>
+
+      <section data-menu-screen="multiplayer" class="menu-screen" hidden>
+        <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
+        <p class="eyebrow">REŽIM · MULTIPLAYER</p><h2>Nastavení hry</h2>
+        <p class="menu-lead">Každý hráč může mít více letadel. Nastavte společnou hru.</p>
+        <div class="settings-card multiplayer-settings">
+          <label>Počet hráčů<select id="multiplayerPlayers"><option>2</option><option>3</option><option>4</option></select></label>
+          <label>Ostatní letadla ovládá<select id="multiplayerControl"><option value="human">Živý hráč</option><option value="ai">AI</option></select></label>
+          <label>Letadlo<select id="multiplayerAircraft"><option value="f16">F-16 · standardní letadlo</option></select></label>
+          <label>Palivo na hráče<input id="multiplayerFuel" type="number" min="1" max="999" value="999"></label>
+          <label>Letadel na hráče<input id="multiplayerAircraftCount" type="number" min="1" max="10" value="1"></label>
+          <label>Paralelně ovládaných letadel za tah<input id="multiplayerParallel" type="number" min="1" max="10" value="1"></label>
+          <div class="setting-note">Zatím je dostupný pouze typ F-16. Ostatní volby jsou připravené pro multiplayerové tahy.</div>
+          <button class="button button-primary menu-start" type="button" disabled>Spustit multiplayer · připravujeme</button>
+        </div>
+      </section>
+    </div>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>

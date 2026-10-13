@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f9fc">
+  <meta name="description" content="Samostatný offline editor a generátor levelů pro Basttle!">
+  <title>Basttle! · Editor levelů</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <main class="editor-app">
+    <header class="editor-header">
+      <a class="editor-brand" href="./" aria-label="Zpět do hry"><span>▦</span> Basttle!</a>
+      <div><p>TVORBA OBSAHU</p><h1>Editor levelů</h1></div>
+      <div class="header-actions"><button id="newLevel" type="button">Nový level</button><button id="exportLevel" class="primary" type="button">Export JSON</button></div>
+    </header>
+    <div class="editor-layout">
+      <section class="workspace" aria-label="Plátno editoru">
+        <div class="canvas-toolbar">
+          <label>Nástroj<select id="toolSelect">
+            <optgroup label="Doplňková grafika">
+              <option value="water">Vodní plocha</option><option value="forest">Les</option><option value="village">Vesnice</option><option value="city">Město</option><option value="river">Řeka</option><option value="bridge">Most</option>
+            </optgroup>
+            <optgroup label="Objekty">
+              <option value="house">Domek</option><option value="mountain">Hora</option><option value="skyscraper">Mrakodrap</option><option value="wind-turbine">Větrná elektrárna</option><option value="runway">Letiště</option><option value="carrier">Letadlová loď</option><option value="enemy-plane">Nepřátelské letadlo</option><option value="vehicle">Vozidlo</option><option value="ship">Loď</option><option value="strategic-target">Strategický cíl</option>
+            </optgroup>
+            <option value="erase">Guma · odstranit</option>
+          </select></label>
+          <label>Směr dráhy<select id="runwayAxis"><option value="horizontal">Vodorovná</option><option value="vertical">Svislá</option></select></label>
+          <label>Délka dráhy<input id="runwayLength" type="number" min="3" max="15" step="2" value="5"></label>
+          <button id="removeSelected" type="button" disabled>Odstranit vybraný objekt</button>
+        </div>
+        <div id="canvasWrap" class="canvas-wrap"><canvas id="editorCanvas" aria-label="Mřížka levelu. Klepnutím umístíš vybraný objekt."></canvas><div class="canvas-empty" id="canvasHelp">Vyber nástroj a klepnutím umísti objekt do mřížky.</div></div>
+        <div class="canvas-footer"><span id="cursorPosition">Souřadnice: —</span><span id="objectCount">0 objektů</span><span id="saveStatus">Uloženo lokálně</span></div>
+      </section>
+
+      <aside class="settings-panel">
+        <section class="panel-card">
+          <div class="panel-title"><span>01</span><h2>Level</h2></div>
+          <label>Název<input id="levelName" type="text" maxlength="60" value="Nový level"></label>
+          <div class="field-row"><label>Šířka mřížky<input id="gridWidth" type="number" min="9" max="101" step="2" value="31"></label><label>Výška mřížky<input id="gridHeight" type="number" min="9" max="101" step="2" value="31"></label></div>
+          <label>Počet hráčů<input id="playerCount" type="number" min="1" max="8" value="1"></label>
+          <fieldset><legend>Herní režimy</legend><div class="check-grid"><label><input type="checkbox" name="mode" value="puzzle" checked> Puzzle</label><label><input type="checkbox" name="mode" value="arcade"> Arcade</label><label><input type="checkbox" name="mode" value="multiplayer"> Multiplayer</label></div><small>Lze vybrat více režimů pro stejný level.</small></fieldset>
+        </section>
+
+        <section class="panel-card generator-card">
+          <div class="panel-title"><span>02</span><h2>Náhodný generátor</h2></div>
+          <p>Vytvoř novou mapu s letištěm, terénem a nepřáteli.</p>
+          <label>Hustota překážek <output id="densityValue">4</output> / 100 polí<input id="obstacleDensity" type="range" min="0" max="24" value="4"></label>
+          <label>Počet nepřátelských letadel<input id="enemyPlaneCount" type="number" min="0" max="20" value="3"></label>
+          <button id="generateLevel" class="primary full-width" type="button">Vygenerovat mapu</button>
+        </section>
+
+        <section class="panel-card aircraft-card">
+          <div class="panel-title"><span>03</span><h2>Typy letadel</h2></div>
+          <div id="aircraftList" class="aircraft-list"></div>
+          <details>
+            <summary>Vytvořit nové letadlo</summary>
+            <div class="aircraft-form">
+              <label>Název<input id="aircraftName" type="text" maxlength="32" placeholder="Např. Stíhač Mk II"></label>
+              <div class="field-row"><label>Obrys · šířka<input id="aircraftOutlineWidth" type="number" min="1" max="8" value="2"></label><label>Obrys · výška<input id="aircraftOutlineHeight" type="number" min="1" max="8" value="2"></label></div>
+              <label>Změna výšky za tah<input id="aircraftAltitudeStep" type="number" min="0" max="10" value="1"></label>
+              <div class="field-row"><label>Dostřel zbraně<input id="aircraftWeaponRange" type="number" min="0" max="20" value="3"></label><label>Munice<input id="aircraftAmmo" type="number" min="0" max="999" value="999"></label></div>
+              <label>Rychlost / pohyblivost<input id="aircraftMobility" type="number" min="1" max="5" value="2"></label>
+              <button id="addAircraft" class="primary full-width" type="button">Přidat typ letadla</button>
+            </div>
+          </details>
+        </section>
+
+        <section class="panel-card file-card">
+          <div class="panel-title"><span>04</span><h2>Level data</h2></div>
+          <button id="copyJson" type="button">Kopírovat JSON</button>
+          <label class="import-button">Načíst JSON ze souboru<input id="importLevel" type="file" accept="application/json,.json"></label>
+          <textarea id="jsonOutput" readonly aria-label="JSON levelu" hidden></textarea>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <script src="editor.js"></script>
+</body>
+</html>
