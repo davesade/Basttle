@@ -4,18 +4,9 @@ Offline webová hra na čtverečkovaném papíře a samostatný editor levelů. 
 
 ## Spuštění
 
-Pro lokální hraní spusť v kořenové složce projektu jednoduchý HTTP server:
+Není potřeba nic instalovat ani spouštět na serveru. Otevři v prohlížeči soubor `index.html`; samostatný editor otevřeš souborem `editor.html`. Obě stránky jsou statické a jejich základní funkce běží přímo z disku.
 
-```sh
-python3 -m http.server 8000
-```
-
-Potom otevři v prohlížeči:
-
-- Hra: <http://localhost:8000/>
-- Editor levelů: <http://localhost:8000/editor.html>
-
-Stejné soubory lze nasadit do kořene GitHub Pages. Service worker ukládá hru, editor i jejich statické soubory do cache. Offline použití v prohlížeči je dostupné po prvním načtení přes `localhost` nebo HTTPS; při otevření souboru přímo přes `file://` service worker nefunguje.
+Service worker, offline cache hostované verze a instalace jako PWA vyžadují HTTPS nebo `localhost`. Pokud chceš tyto funkce lokálně vyzkoušet, můžeš použít libovolný statický HTTP server; není to ale podmínka pro spuštění hry. Projekt lze také nasadit na GitHub Pages.
 
 ## Co lze aktuálně hrát
 
