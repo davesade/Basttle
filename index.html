@@ -83,6 +83,18 @@
           </div>
           <div id="emptyState" class="empty-state"><span class="empty-icon">⌖</span><strong>Vyber cíl letu</strong><span>Ťukni na jeden z devíti bodů v obrysu kolem Z.</span></div>
           <div id="flightStatus" class="flight-status hidden" role="status" aria-live="polite"></div>
+          <section id="gameOverPanel" class="game-over-panel" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle" aria-describedby="gameOverMessage" hidden>
+            <div class="game-over-card">
+              <span class="game-over-mark" aria-hidden="true">✕</span>
+              <p class="eyebrow">LETOVÁ MISE</p>
+              <h2 id="gameOverTitle">Letadlo havarovalo</h2>
+              <p id="gameOverMessage"></p>
+              <div class="game-over-actions">
+                <button id="failureRestart" class="game-over-action" type="button"><span class="game-over-action-icon" aria-hidden="true">↻</span><span>Restartovat level</span></button>
+                <button id="failureSubmenu" class="game-over-action" type="button"><span class="game-over-action-icon" aria-hidden="true">⌂</span><span>Zpět do submenu</span></button>
+              </div>
+            </div>
+          </section>
           <div class="zoom-controls" aria-label="Přiblížení herní plochy">
             <button id="zoomOut" type="button" aria-label="Oddálit" title="Oddálit">−</button>
             <button id="zoomIn" type="button" aria-label="Přiblížit" title="Přiblížit">＋</button>
@@ -106,19 +118,29 @@
     <div class="menu-content">
       <header class="menu-header">
         <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">▦</span><span>Basttle!</span></a>
-        <button id="menuResume" class="button button-secondary menu-resume" type="button">Pokračovat ve hře</button>
       </header>
       <section data-menu-screen="home" class="menu-screen">
         <p class="eyebrow">TAKTICKÁ LETECKÁ HRA</p>
         <h2>Hlavní menu</h2>
         <p class="menu-lead">Vyber herní režim.</p>
         <div class="mode-cards">
+          <button class="mode-card" type="button" data-open-menu="tutorial"><span class="mode-icon">✈</span><strong>Tutorial</strong><small>Nauč se vzlétnout, přistát a střílet na cíle.</small><span class="card-arrow">→</span></button>
           <button class="mode-card" type="button" data-open-menu="puzzle"><span class="mode-icon">⌖</span><strong>Puzzle</strong><small>Vyber jeden z deseti levelů.</small><span class="card-arrow">→</span></button>
           <button class="mode-card" type="button" data-open-menu="arcade"><span class="mode-icon">✦</span><strong>Arcade</strong><small>Náhodná mapa a nepřátelská letadla řízená AI.</small><span class="card-arrow">→</span></button>
           <button class="mode-card" type="button" data-open-menu="campaign"><span class="mode-icon">⑂</span><strong>Campaign</strong><small>Příběhová cesta s větvením doleva a doprava.</small><span class="card-arrow">→</span></button>
           <button class="mode-card" type="button" data-open-menu="multiplayer"><span class="mode-icon">◎</span><strong>Multiplayer</strong><small>Hra pro dva a více hráčů, živě nebo proti AI.</small><span class="card-arrow">→</span></button>
         </div>
-        <div class="menu-bottom-actions"><button id="menuRestart" class="button button-secondary" type="button">Restartovat aktuální level</button></div>
+      </section>
+
+      <section data-menu-screen="tutorial" class="menu-screen" hidden>
+        <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
+        <p class="eyebrow">REŽIM · TUTORIAL</p><h2>Výcvik letadla</h2>
+        <p class="menu-lead">Tři krátké lekce tě provedou základním ovládáním.</p>
+        <div class="level-grid tutorial-level-grid">
+          <button id="tutorialLevel1" class="level-card is-available" type="button"><span>01</span><strong>Vzlet a přistání</strong><small>Nauč se bezpečně odstartovat a vrátit na dráhu</small></button>
+          <button id="tutorialLevel2" class="level-card is-available" type="button"><span>02</span><strong>Statický cíl</strong><small>Vyber FIRE a zamiř na stojící cíl</small></button>
+          <button id="tutorialLevel3" class="level-card is-available" type="button"><span>03</span><strong>Pohyblivý cíl</strong><small>Sleduj trasu a načasuj výstřel na jedoucí auto</small></button>
+        </div>
       </section>
 
       <section data-menu-screen="puzzle" class="menu-screen" hidden>
@@ -126,28 +148,30 @@
         <p class="eyebrow">REŽIM · PUZZLE</p><h2>Výběr levelu</h2>
         <p class="menu-lead">Dokonči úkol a odemkni další výzvy.</p>
         <div class="level-grid">
-          <button id="puzzleLevel1" class="level-card is-available" type="button"><span>01</span><strong>První let</strong><small>Prototypový level · k dispozici</small></button>
-          <button class="level-card" type="button" disabled><span>02</span><strong>Level 2</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>03</span><strong>Level 3</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>04</span><strong>Level 4</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>05</span><strong>Level 5</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>06</span><strong>Level 6</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>07</span><strong>Level 7</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>08</span><strong>Level 8</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>09</span><strong>Level 9</strong><small>Připravujeme</small></button>
-          <button class="level-card" type="button" disabled><span>10</span><strong>Level 10</strong><small>Připravujeme</small></button>
+          <button id="puzzleLevel1" class="level-card is-available" type="button"><span>01</span><strong>První mise</strong><small>Znič cíl a přistaň · k dispozici</small><small class="level-best-score" id="puzzleBest1">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel2" class="level-card is-available" type="button"><span>02</span><strong>Dva cíle</strong><small>Znič oba sklady a přistaň · k dispozici</small><small class="level-best-score" id="puzzleBest2">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel3" class="level-card is-available" type="button"><span>03</span><strong>Únikové auto</strong><small>Sestřel auto dřív, než opustí mapu · k dispozici</small><small class="level-best-score" id="puzzleBest3">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel4" class="level-card is-available" type="button"><span>04</span><strong>Jižní trasa</strong><small>Sestřel konvoj i zásobník paliva · k dispozici</small><small class="level-best-score" id="puzzleBest4">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel5" class="level-card is-available" type="button"><span>05</span><strong>Křižující se trasy</strong><small>Sestřel obě auta · k dispozici</small><small class="level-best-score" id="puzzleBest5">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel6" class="level-card is-available" type="button"><span>06</span><strong>Jezerní okruh</strong><small>Proleť horským průsmykem a zasáhni loď · k dispozici</small><small class="level-best-score" id="puzzleBest6">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel7" class="level-card is-available" type="button"><span>07</span><strong>Jezero na západě</strong><small>Znič dům a pohyblivé auto · k dispozici</small><small class="level-best-score" id="puzzleBest7">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel8" class="level-card is-available" type="button"><span>08</span><strong>Čtyři kouty</strong><small>Znič čtyři cíle na celé mapě · k dispozici</small><small class="level-best-score" id="puzzleBest8">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel9" class="level-card is-available" type="button"><span>09</span><strong>Zrcadlový průlet</strong><small>Znič šest cílů a přistaň · k dispozici</small><small class="level-best-score" id="puzzleBest9">Nejvyšší skóre: —</small></button>
+          <button id="puzzleLevel10" class="level-card is-available" type="button"><span>10</span><strong>Labyrint bez východu</strong><small>Prokličkuj k osmi cílům u okrajů mapy a zpět</small><small class="level-best-score" id="puzzleBest10">Nejvyšší skóre: —</small></button>
         </div>
       </section>
 
       <section data-menu-screen="arcade" class="menu-screen" hidden>
         <button class="menu-back" type="button" data-menu-back>← Hlavní menu</button>
         <p class="eyebrow">REŽIM · ARCADE</p><h2>Volné nebe</h2>
-        <p class="menu-lead">Mapa se vygeneruje náhodně. Nepřátelská letadla bude řídit AI.</p>
+        <p class="menu-lead">Leť co nejdéle, sestřeluj nepřátelské stíhačky a sbírej body. Po zničení se časem objeví další.</p>
         <div class="settings-card">
           <label>Letadlo<select id="arcadeAircraft"><option value="f16">F-16 · standardní letadlo</option></select></label>
           <label>Obtížnost AI<select id="arcadeDifficulty"><option value="easy">Lehká</option><option value="normal" selected>Střední</option><option value="hard">Těžká</option></select></label>
-          <div class="setting-note">Dostupné letadlo: F-16. Další typy později upraví pohyblivost, zbraně a munici.</div>
-          <button class="button button-primary menu-start" type="button" disabled>Připravujeme arcade režim</button>
+          <label>Seed mapy<input id="arcadeSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Náhodný při každé hře" autocomplete="off"></label>
+          <div class="setting-note">Stejný seed vždy vytvoří stejnou mapu. Přistáním doplníš palivo na 50 a munici na 10. AI tě pronásleduje; letadla mohou narazit do překážek i do tebe.</div>
+          <p id="arcadeBestScore" class="arcade-best-score">Nejlepší skóre: 0</p>
+          <button id="arcadeStart" class="button button-primary menu-start" type="button">Spustit Arcade</button>
         </div>
       </section>
 
@@ -180,6 +204,7 @@
       </section>
     </div>
   </dialog>
+  <script src="yaml.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

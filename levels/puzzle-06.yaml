@@ -1,0 +1,172 @@
+schemaVersion: 1
+id: puzzle-06
+name: Jezerní okruh
+modes:
+  - puzzle
+flightMode: basic
+flightModeLocked: true
+weather: sunny
+weatherLocked: true
+bounds:
+  minX: -12
+  maxX: 12
+  minY: -12
+  maxY: 12
+resources:
+  fuel: 25
+  ammo: 2
+runways:
+  - id: runway-1
+    center:
+      x: 0
+      y: 0
+    axis: horizontal
+    length: 5
+    fixed: true
+players:
+  - id: player-1
+    name: Hráč
+    aircraft:
+      - id: aircraft-1
+        name: F-16
+        start:
+          x: 0
+          y: 0
+        runwayId: runway-1
+targets: []
+movingTargets:
+  - id: lake-boat
+    kind: boat
+    name: Jezerní loď
+    position:
+      x: 4
+      y: 7
+    route:
+      - x: 4
+        y: 7
+      - x: 4.6
+        y: 6
+      - x: 6
+        y: 5.8
+      - x: 7.4
+        y: 6
+      - x: 8
+        y: 7
+      - x: 7.4
+        y: 8
+      - x: 6
+        y: 8.2
+      - x: 4.6
+        y: 8
+    altitude: 0
+    points: 2
+    required: true
+rules:
+  movingTargetEscapeIsLoss: true
+obstacles:
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -4.8
+        y: 2.5
+      - x: -3.8
+        y: 1.4
+      - x: -2.8
+        y: 2.5
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -2.4
+        y: 4.7
+      - x: -1.4
+        y: 5.8
+      - x: -0.4
+        y: 4.7
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 0.4
+        y: 3.5
+      - x: 1.4
+        y: 2.4
+      - x: 2.4
+        y: 3.5
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 1.5
+        y: 6.3
+      - x: 2.5
+        y: 7.4
+      - x: 3.5
+        y: 6.3
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -8.8
+        y: -3.5
+      - x: -7.6
+        y: -4.8
+      - x: -6.4
+        y: -3.5
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 8.4
+        y: 1.2
+      - x: 9.6
+        y: 1.2
+      - x: 9.6
+        y: 3.6
+      - x: 8.4
+        y: 3.6
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -9.2
+        y: 8.2
+      - x: -8
+        y: 8.2
+      - x: -8
+        y: 10.4
+      - x: -9.2
+        y: 10.4
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 10
+          y: -5
+        to:
+          x: 10
+          y: -3.8
+        width: 0.16
+      - from:
+          x: 9.4
+          y: -3.8
+        to:
+          x: 10.6
+          y: -3.8
+        width: 0.14
+      - from:
+          x: 9.5
+          y: -4.4
+        to:
+          x: 10.5
+          y: -3.5
+        width: 0.14
+      - from:
+          x: 10.5
+          y: -4.4
+        to:
+          x: 9.5
+          y: -3.5
+        width: 0.14
+decorations:
+  - id: lake-1
+    kind: lake
+    center:
+      x: 6
+      y: 7
+    width: 8
+    height: 6

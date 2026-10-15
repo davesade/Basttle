@@ -1,5 +1,5 @@
-const CACHE = 'basttle-v24';
-const FILES = ['./', './index.html', './style.css', './app.js', './manifest.webmanifest', './editor.html', './editor.css', './editor.js'];
+const CACHE = 'basttle-v44';
+const FILES = ['./', './index.html', './style.css', './yaml.js', './app.js', './manifest.webmanifest', './editor.html', './editor.css', './editor.js', './levels/tutorial-01.yaml', './levels/tutorial-02.yaml', './levels/tutorial-03.yaml', './levels/puzzle-01.yaml', './levels/puzzle-02.yaml', './levels/puzzle-03.yaml', './levels/puzzle-04.yaml', './levels/puzzle-05.yaml', './levels/puzzle-06.yaml', './levels/puzzle-07.yaml', './levels/puzzle-08.yaml', './levels/puzzle-09.yaml', './levels/puzzle-10.yaml'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
 });

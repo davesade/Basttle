@@ -3,7 +3,7 @@
   const canvas = document.querySelector('#editorCanvas');
   const ctx = canvas.getContext('2d');
   const canvasWrap = document.querySelector('#canvasWrap');
-  const jsonOutput = document.querySelector('#jsonOutput');
+  const yamlOutput = document.querySelector('#yamlOutput');
   let dpr = 1;
   let geometry = null;
   let selectedId = null;
@@ -277,21 +277,21 @@
       generation:{...state.generation}
     };
   }
-  function jsonText() { return JSON.stringify(getLevelData(),null,2); }
+  function yamlText() { return stringifyYaml(getLevelData()); }
   function exportLevel() {
-    const blob=new Blob([jsonText()],{type:'application/json'});
+    const blob=new Blob([yamlText()],{type:'application/yaml'});
     const url=URL.createObjectURL(blob);const link=document.createElement('a');
     const safeName=state.name.toLowerCase().replace(/[^a-z0-9-]+/g,'-').replace(/^-|-$/g,'')||'basttle-level';
-    link.href=url;link.download=`${safeName}.json`;link.click();URL.revokeObjectURL(url);
+    link.href=url;link.download=`${safeName}.yaml`;link.click();URL.revokeObjectURL(url);
   }
-  async function copyJson() {
-    const text=jsonText();jsonOutput.hidden=false;jsonOutput.value=text;
-    try{await navigator.clipboard.writeText(text);document.querySelector('#saveStatus').textContent='JSON zkopírován';}
-    catch(_){jsonOutput.focus();jsonOutput.select();document.querySelector('#saveStatus').textContent='JSON označen ke zkopírování';}
+  async function copyYaml() {
+    const text=yamlText();yamlOutput.hidden=false;yamlOutput.value=text;
+    try{await navigator.clipboard.writeText(text);document.querySelector('#saveStatus').textContent='YAML zkopírován';}
+    catch(_){yamlOutput.focus();yamlOutput.select();document.querySelector('#saveStatus').textContent='YAML označen ke zkopírování';}
   }
   function importFile(file) {
     const reader=new FileReader();
-    reader.onload=()=>{try{state=normalizeLevel(JSON.parse(String(reader.result)));selectedId=null;jsonOutput.hidden=true;changed();document.querySelector('#saveStatus').textContent='Level načten';}catch(_){document.querySelector('#saveStatus').textContent='Soubor není platný level JSON';}};
+    reader.onload=()=>{try{state=normalizeLevel(parseYaml(String(reader.result)));selectedId=null;yamlOutput.hidden=true;changed();document.querySelector('#saveStatus').textContent='Level načten';}catch(_){document.querySelector('#saveStatus').textContent='Soubor není platný YAML level';}};
     reader.readAsText(file);
   }
 
@@ -305,9 +305,9 @@
   document.querySelector('#addAircraft').addEventListener('click',addAircraft);
   document.querySelector('#generateLevel').addEventListener('click',generateLevel);
   document.querySelector('#removeSelected').addEventListener('click',()=>{state.entities=state.entities.filter(entity=>entity.id!==selectedId);selectedId=null;changed();});
-  document.querySelector('#newLevel').addEventListener('click',()=>{state=freshLevel();selectedId=null;changed();jsonOutput.hidden=true;});
+  document.querySelector('#newLevel').addEventListener('click',()=>{state=freshLevel();selectedId=null;changed();yamlOutput.hidden=true;});
   document.querySelector('#exportLevel').addEventListener('click',exportLevel);
-  document.querySelector('#copyJson').addEventListener('click',copyJson);
+  document.querySelector('#copyYaml').addEventListener('click',copyYaml);
   document.querySelector('#importLevel').addEventListener('change',event=>{const file=event.target.files?.[0];if(file)importFile(file);event.target.value='';});
   document.querySelector('#densityValue').value=state.generation.obstacleDensity;
   changed();

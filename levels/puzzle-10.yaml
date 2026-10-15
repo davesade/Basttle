@@ -1,0 +1,909 @@
+schemaVersion: 1
+id: puzzle-10
+name: Labyrint bez východu
+modes:
+  - puzzle
+flightMode: basic
+flightModeLocked: true
+weather: sunny
+weatherLocked: true
+bounds:
+  minX: -15
+  maxX: 15
+  minY: -15
+  maxY: 15
+resources:
+  fuel: 70
+  ammo: 8
+runways:
+  - id: runway-1
+    center:
+      x: 0
+      y: 0
+    axis: horizontal
+    length: 5
+    fixed: true
+players:
+  - id: player-1
+    name: Hráč
+    aircraft:
+      - id: aircraft-1
+        name: F-16
+        start:
+          x: 0
+          y: 0
+        runwayId: runway-1
+targets:
+  - id: lakeside-house
+    kind: house
+    name: Severozápadní sklad 1
+    position:
+      x: -13
+      y: 9
+    altitude: 0
+    points: 1
+    required: true
+  - id: southwest-house
+    kind: house
+    name: Severovýchodní sklad 1
+    position:
+      x: 13
+      y: 8
+    altitude: 0
+    points: 1
+    required: true
+  - id: southeast-house-1
+    kind: house
+    name: Jihovýchodní sklad 1
+    position:
+      x: 14
+      y: -10
+    altitude: 0
+    points: 1
+    required: true
+  - id: southeast-house-2
+    kind: house
+    name: Jihovýchodní sklad 2
+    position:
+      x: 10
+      y: -8
+    altitude: 0
+    points: 1
+    required: true
+  - id: northeast-store
+    kind: house
+    name: Severovýchodní sklad 2
+    position:
+      x: 10
+      y: 9
+    altitude: 0
+    points: 1
+    required: true
+  - id: southwest-store
+    kind: house
+    name: Jihozápadní sklad 1
+    position:
+      x: -13
+      y: -10
+    altitude: 0
+    points: 1
+    required: true
+  - id: southern-store
+    kind: house
+    name: Jihozápadní sklad 2
+    position:
+      x: -10
+      y: -8
+    altitude: 0
+    points: 1
+    required: true
+  - id: southeast-store
+    kind: house
+    name: Severozápadní sklad 2
+    position:
+      x: -10
+      y: 8
+    altitude: 0
+    points: 1
+    required: true
+movingTargets: []
+rules:
+  movingTargetEscapeIsLoss: true
+obstacles:
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 4.8
+        y: 2.5
+      - x: 3.8
+        y: 1.4
+      - x: 2.8
+        y: 2.5
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 2.4
+        y: 4.7
+      - x: 1.4
+        y: 5.8
+      - x: 0.4
+        y: 4.7
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -0.4
+        y: 3.5
+      - x: -1.4
+        y: 2.4
+      - x: -2.4
+        y: 3.5
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -1.5
+        y: 6.3
+      - x: -2.5
+        y: 7.4
+      - x: -3.5
+        y: 6.3
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 8.8
+        y: -3.5
+      - x: 7.6
+        y: -4.8
+      - x: 6.4
+        y: -3.5
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -8.4
+        y: 1.2
+      - x: -9.6
+        y: 1.2
+      - x: -9.6
+        y: 3.6
+      - x: -8.4
+        y: 3.6
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 9.2
+        y: 8.2
+      - x: 8
+        y: 8.2
+      - x: 8
+        y: 10.4
+      - x: 9.2
+        y: 10.4
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -10
+          y: -5
+        to:
+          x: -10
+          y: -3.8
+        width: 0.16
+      - from:
+          x: -9.4
+          y: -3.8
+        to:
+          x: -10.6
+          y: -3.8
+        width: 0.14
+      - from:
+          x: -9.5
+          y: -4.4
+        to:
+          x: -10.5
+          y: -3.5
+        width: 0.14
+      - from:
+          x: -10.5
+          y: -4.4
+        to:
+          x: -9.5
+          y: -3.5
+        width: 0.14
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -4.2
+        y: 9.1
+      - x: -5.3
+        y: 10.2
+      - x: -6.4
+        y: 9.1
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 5.8
+        y: -6.2
+      - x: 4.8
+        y: -7.3
+      - x: 3.8
+        y: -6.2
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -3.3
+        y: -9.7
+      - x: -4.5
+        y: -9.7
+      - x: -4.5
+        y: -7.4
+      - x: -3.3
+        y: -7.4
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -1.7
+        y: -10.8
+      - x: -0.6
+        y: -9.6
+      - x: 0.5
+        y: -10.8
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 11.2
+        y: 3.2
+      - x: 12.4
+        y: 3.2
+      - x: 12.4
+        y: 5.5
+      - x: 11.2
+        y: 5.5
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -12.8
+        y: -6.4
+      - x: -11.7
+        y: -5.2
+      - x: -10.6
+        y: -6.4
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 1.8
+        y: 10.8
+      - x: 3.1
+        y: 10.8
+      - x: 3.1
+        y: 13.1
+      - x: 1.8
+        y: 13.1
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -13.65
+        y: 12.675
+      - x: -13
+        y: 13.65
+      - x: -12.35
+        y: 12.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -11.15
+        y: 11.675
+      - x: -10.5
+        y: 12.65
+      - x: -9.85
+        y: 11.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -13.65
+        y: 6.675
+      - x: -13
+        y: 7.65
+      - x: -12.35
+        y: 6.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -12.65
+        y: -1.325
+      - x: -12
+        y: -0.35
+      - x: -11.35
+        y: -1.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -12.65
+        y: -9.325
+      - x: -12
+        y: -8.35
+      - x: -11.35
+        y: -9.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -8.65
+        y: -12.325
+      - x: -8
+        y: -11.35
+      - x: -7.35
+        y: -12.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -5.65
+        y: -13.325
+      - x: -5
+        y: -12.35
+      - x: -4.35
+        y: -13.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -1.65
+        y: -13.325
+      - x: -1
+        y: -12.35
+      - x: -0.35
+        y: -13.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 2.35
+        y: -13.325
+      - x: 3
+        y: -12.35
+      - x: 3.65
+        y: -13.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 6.35
+        y: -13.325
+      - x: 7
+        y: -12.35
+      - x: 7.65
+        y: -13.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 11.35
+        y: -13.325
+      - x: 12
+        y: -12.35
+      - x: 12.65
+        y: -13.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 13.35
+        y: -8.325
+      - x: 14
+        y: -7.35
+      - x: 14.65
+        y: -8.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 11.35
+        y: -5.325
+      - x: 12
+        y: -4.35
+      - x: 12.65
+        y: -5.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 8.35
+        y: -4.325
+      - x: 9
+        y: -3.35
+      - x: 9.65
+        y: -4.325
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 12.35
+        y: 0.675
+      - x: 13
+        y: 1.65
+      - x: 13.65
+        y: 0.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 13.35
+        y: 5.675
+      - x: 14
+        y: 6.65
+      - x: 14.65
+        y: 5.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 11.35
+        y: 10.675
+      - x: 12
+        y: 11.65
+      - x: 12.65
+        y: 10.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 7.35
+        y: 12.675
+      - x: 8
+        y: 13.65
+      - x: 8.65
+        y: 12.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: 2.35
+        y: 12.675
+      - x: 3
+        y: 13.65
+      - x: 3.65
+        y: 12.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -2.65
+        y: 12.675
+      - x: -2
+        y: 13.65
+      - x: -1.35
+        y: 12.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -7.65
+        y: 12.675
+      - x: -7
+        y: 13.65
+      - x: -6.35
+        y: 12.675
+  - name: hora
+    altitude: 5
+    polygon:
+      - x: -12.65
+        y: 11.675
+      - x: -12
+        y: 12.65
+      - x: -11.35
+        y: 11.675
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -11.425
+        y: 4.15
+      - x: -10.575
+        y: 4.15
+      - x: -10.575
+        y: 5.85
+      - x: -11.425
+        y: 5.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -12.425
+        y: 1.15
+      - x: -11.575
+        y: 1.15
+      - x: -11.575
+        y: 2.85
+      - x: -12.425
+        y: 2.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -11.425
+        y: -5.85
+      - x: -10.575
+        y: -5.85
+      - x: -10.575
+        y: -4.15
+      - x: -11.425
+        y: -4.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -9.425
+        y: -10.85
+      - x: -8.575
+        y: -10.85
+      - x: -8.575
+        y: -9.15
+      - x: -9.425
+        y: -9.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -6.425
+        y: -11.85
+      - x: -5.575
+        y: -11.85
+      - x: -5.575
+        y: -10.15
+      - x: -6.425
+        y: -10.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -2.425
+        y: -12.85
+      - x: -1.575
+        y: -12.85
+      - x: -1.575
+        y: -11.15
+      - x: -2.425
+        y: -11.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 4.575
+        y: -12.85
+      - x: 5.425
+        y: -12.85
+      - x: 5.425
+        y: -11.15
+      - x: 4.575
+        y: -11.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 9.575
+        y: -13.85
+      - x: 10.425
+        y: -13.85
+      - x: 10.425
+        y: -12.15
+      - x: 9.575
+        y: -12.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 12.575
+        y: -11.85
+      - x: 13.425
+        y: -11.85
+      - x: 13.425
+        y: -10.15
+      - x: 12.575
+        y: -10.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 12.575
+        y: -3.85
+      - x: 13.425
+        y: -3.85
+      - x: 13.425
+        y: -2.15
+      - x: 12.575
+        y: -2.15
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 9.575
+        y: 4.15
+      - x: 10.425
+        y: 4.15
+      - x: 10.425
+        y: 5.85
+      - x: 9.575
+        y: 5.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 12.575
+        y: 9.15
+      - x: 13.425
+        y: 9.15
+      - x: 13.425
+        y: 10.85
+      - x: 12.575
+        y: 10.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -10.425
+        y: 10.15
+      - x: -9.575
+        y: 10.15
+      - x: -9.575
+        y: 11.85
+      - x: -10.425
+        y: 11.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -5.425
+        y: 11.15
+      - x: -4.575
+        y: 11.15
+      - x: -4.575
+        y: 12.85
+      - x: -5.425
+        y: 12.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 0.575
+        y: 11.15
+      - x: 1.425
+        y: 11.15
+      - x: 1.425
+        y: 12.85
+      - x: 0.575
+        y: 12.85
+  - name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 5.575
+        y: 11.15
+      - x: 6.425
+        y: 11.15
+      - x: 6.425
+        y: 12.85
+      - x: 5.575
+        y: 12.85
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -13
+          y: 3.35
+        to:
+          x: -13
+          y: 4.45
+        width: 0.16
+      - from:
+          x: -13.55
+          y: 4.45
+        to:
+          x: -12.45
+          y: 4.45
+        width: 0.14
+      - from:
+          x: -13.45
+          y: 4.1
+        to:
+          x: -12.55
+          y: 4.8
+        width: 0.14
+      - from:
+          x: -12.55
+          y: 4.1
+        to:
+          x: -13.45
+          y: 4.8
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -12
+          y: -6.65
+        to:
+          x: -12
+          y: -5.55
+        width: 0.16
+      - from:
+          x: -12.55
+          y: -5.55
+        to:
+          x: -11.45
+          y: -5.55
+        width: 0.14
+      - from:
+          x: -12.45
+          y: -5.9
+        to:
+          x: -11.55
+          y: -5.2
+        width: 0.14
+      - from:
+          x: -11.55
+          y: -5.9
+        to:
+          x: -12.45
+          y: -5.2
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -7
+          y: -13.65
+        to:
+          x: -7
+          y: -12.55
+        width: 0.16
+      - from:
+          x: -7.55
+          y: -12.55
+        to:
+          x: -6.45
+          y: -12.55
+        width: 0.14
+      - from:
+          x: -7.45
+          y: -12.9
+        to:
+          x: -6.55
+          y: -12.2
+        width: 0.14
+      - from:
+          x: -6.55
+          y: -12.9
+        to:
+          x: -7.45
+          y: -12.2
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 1
+          y: -12.65
+        to:
+          x: 1
+          y: -11.55
+        width: 0.16
+      - from:
+          x: 0.44999999999999996
+          y: -11.55
+        to:
+          x: 1.55
+          y: -11.55
+        width: 0.14
+      - from:
+          x: 0.55
+          y: -11.9
+        to:
+          x: 1.45
+          y: -11.2
+        width: 0.14
+      - from:
+          x: 1.45
+          y: -11.9
+        to:
+          x: 0.55
+          y: -11.2
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 11
+          y: -10.65
+        to:
+          x: 11
+          y: -9.55
+        width: 0.16
+      - from:
+          x: 10.45
+          y: -9.55
+        to:
+          x: 11.55
+          y: -9.55
+        width: 0.14
+      - from:
+          x: 10.55
+          y: -9.9
+        to:
+          x: 11.45
+          y: -9.2
+        width: 0.14
+      - from:
+          x: 11.45
+          y: -9.9
+        to:
+          x: 10.55
+          y: -9.2
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 13
+          y: 3.35
+        to:
+          x: 13
+          y: 4.45
+        width: 0.16
+      - from:
+          x: 12.45
+          y: 4.45
+        to:
+          x: 13.55
+          y: 4.45
+        width: 0.14
+      - from:
+          x: 12.55
+          y: 4.1
+        to:
+          x: 13.45
+          y: 4.8
+        width: 0.14
+      - from:
+          x: 13.45
+          y: 4.1
+        to:
+          x: 12.55
+          y: 4.8
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 10
+          y: 11.35
+        to:
+          x: 10
+          y: 12.45
+        width: 0.16
+      - from:
+          x: 9.45
+          y: 12.45
+        to:
+          x: 10.55
+          y: 12.45
+        width: 0.14
+      - from:
+          x: 9.55
+          y: 12.1
+        to:
+          x: 10.45
+          y: 12.8
+        width: 0.14
+      - from:
+          x: 10.45
+          y: 12.1
+        to:
+          x: 9.55
+          y: 12.8
+        width: 0.14
+  - name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -10
+          y: 12.35
+        to:
+          x: -10
+          y: 13.45
+        width: 0.16
+      - from:
+          x: -10.55
+          y: 13.45
+        to:
+          x: -9.45
+          y: 13.45
+        width: 0.14
+      - from:
+          x: -10.45
+          y: 13.1
+        to:
+          x: -9.55
+          y: 13.8
+        width: 0.14
+      - from:
+          x: -9.55
+          y: 13.1
+        to:
+          x: -10.45
+          y: 13.8
+        width: 0.14
+decorations:
+  - id: lake-1
+    kind: lake
+    center:
+      x: 6
+      y: 7
+    width: 8
+    height: 6

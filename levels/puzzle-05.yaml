@@ -1,0 +1,217 @@
+schemaVersion: 1
+id: puzzle-05
+name: Křižující se trasy
+modes:
+  - puzzle
+flightMode: basic
+flightModeLocked: true
+weather: sunny
+weatherLocked: true
+bounds:
+  minX: -9
+  maxX: 9
+  minY: -9
+  maxY: 9
+resources:
+  fuel: 26
+  ammo: 3
+runways:
+  - id: runway-1
+    center:
+      x: 0
+      y: 0
+    axis: vertical
+    length: 5
+    fixed: true
+players:
+  - id: player-1
+    name: Hráč
+    aircraft:
+      - id: aircraft-1
+        name: F-16
+        start:
+          x: 0
+          y: 0
+        runwayId: runway-1
+targets: []
+movingTargets:
+  - id: north-car
+    kind: car
+    name: Severní auto
+    position:
+      x: -1
+      y: 6
+    movementVector:
+      x: 1
+      y: 0
+    altitude: 0
+    points: 2
+    required: true
+  - id: south-car
+    kind: car
+    name: Jižní auto
+    position:
+      x: 1
+      y: -6
+    movementVector:
+      x: -1
+      y: 0
+    altitude: 0
+    points: 2
+    required: true
+rules:
+  movingTargetEscapeIsLoss: true
+obstacles:
+  - id: ridge-southwest
+    name: hora
+    altitude: 5
+    polygon:
+      - x: -4.6
+        y: -1.7
+      - x: -3.8
+        y: -3
+      - x: -3
+        y: -1.7
+  - id: ridge-northwest
+    name: hora
+    altitude: 5
+    polygon:
+      - x: -5.4
+        y: 4.1
+      - x: -4.6
+        y: 5.4
+      - x: -3.8
+        y: 4.1
+  - id: tower-northwest
+    name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -8.2
+        y: 5.1
+      - x: -7
+        y: 5.1
+      - x: -7
+        y: 7.4
+      - x: -8.2
+        y: 7.4
+  - id: tower-east
+    name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 5.1
+        y: 1.6
+      - x: 6.2
+        y: 1.6
+      - x: 6.2
+        y: 3.7
+      - x: 5.1
+        y: 3.7
+  - id: tower-southeast
+    name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: 7
+        y: -8.3
+      - x: 8.1
+        y: -8.3
+      - x: 8.1
+        y: -6.6
+      - x: 7
+        y: -6.6
+  - id: windfarm-west
+    name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: -7.1
+          y: -6.2
+        to:
+          x: -7.1
+          y: -5.1
+        width: 0.16
+      - from:
+          x: -7.7
+          y: -5.1
+        to:
+          x: -6.5
+          y: -5.1
+        width: 0.14
+      - from:
+          x: -7.6
+          y: -5.7
+        to:
+          x: -6.6
+          y: -4.8
+        width: 0.14
+      - from:
+          x: -6.6
+          y: -5.7
+        to:
+          x: -7.6
+          y: -4.8
+        width: 0.14
+  - id: windfarm-south
+    name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 4
+          y: -8.1
+        to:
+          x: 4
+          y: -7
+        width: 0.16
+      - from:
+          x: 3.4
+          y: -7
+        to:
+          x: 4.6
+          y: -7
+        width: 0.14
+      - from:
+          x: 3.5
+          y: -7.6
+        to:
+          x: 4.5
+          y: -6.7
+        width: 0.14
+      - from:
+          x: 4.5
+          y: -7.6
+        to:
+          x: 3.5
+          y: -6.7
+        width: 0.14
+  - id: windfarm-northeast
+    name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 7
+          y: 7.4
+        to:
+          x: 7
+          y: 8.4
+        width: 0.16
+      - from:
+          x: 6.4
+          y: 8.4
+        to:
+          x: 7.6
+          y: 8.4
+        width: 0.14
+      - from:
+          x: 6.5
+          y: 7.9
+        to:
+          x: 7.5
+          y: 8.8
+        width: 0.14
+      - from:
+          x: 7.5
+          y: 7.9
+        to:
+          x: 6.5
+          y: 8.8
+        width: 0.14
+decorations: []

@@ -1,0 +1,90 @@
+schemaVersion: 1
+id: puzzle-01
+name: První mise
+modes:
+  - puzzle
+flightMode: basic
+flightModeLocked: true
+weather: sunny
+weatherLocked: true
+bounds:
+  minX: -8
+  maxX: 10
+  minY: -8
+  maxY: 8
+resources:
+  fuel: 18
+  ammo: 3
+runways:
+  - id: runway-1
+    center:
+      x: 0
+      y: 0
+    axis: horizontal
+    length: 5
+    fixed: true
+players:
+  - id: player-1
+    name: Hráč
+    aircraft:
+      - id: aircraft-1
+        name: F-16
+        start:
+          x: 0
+          y: 0
+        runwayId: runway-1
+targets:
+  - id: depot-1
+    kind: house
+    name: Sklad paliva
+    position:
+      x: 6
+      y: 3
+    altitude: 0
+    points: 10
+    required: true
+movingTargets: []
+rules:
+  movingTargetEscapeIsLoss: true
+obstacles:
+  - id: ridge-1
+    name: hora
+    altitude: 5
+    polygon:
+      - x: 3.25
+        y: 0.85
+      - x: 3.55
+        y: 0.25
+      - x: 3.85
+        y: 0.85
+  - id: ridge-2
+    name: západní štít
+    altitude: 5
+    polygon:
+      - x: -0.9
+        y: 2.5
+      - x: 0
+        y: 3.2
+      - x: 0.9
+        y: 2.5
+  - id: ridge-3
+    name: severní štít
+    altitude: 5
+    polygon:
+      - x: 0.1
+        y: 5.35
+      - x: 0.95
+        y: 6.55
+      - x: 1.8
+        y: 5.35
+  - id: ridge-4
+    name: východní štít
+    altitude: 5
+    polygon:
+      - x: 7.1
+        y: 4.1
+      - x: 7.85
+        y: 5.2
+      - x: 8.6
+        y: 4.1
+decorations: []

@@ -10,27 +10,36 @@ Service worker, offline cache hostované verze a instalace jako PWA vyžadují H
 
 ## Co lze aktuálně hrát
 
-Hra se při otevření zobrazí přes hlavní menu. Aktuálně lze spustit **Puzzle – level 1 „První let“**. Ostatních devět puzzle levelů je zatím pouze v nabídce. Arcade, Campaign a Multiplayer mají obrazovky s návrhem nastavení, ale jejich tlačítka pro spuštění jsou vypnutá; jejich vlastní herní pravidla, nepřátelská AI, větvení kampaně a multiplayer ještě nejsou implementované.
+Hra se při otevření zobrazí přes hlavní menu. Režim **Tutorial** obsahuje tři lekce: vzlet a přistání, střelbu na statický cíl a střelbu na pohyblivý cíl. Všechny mají 999 paliva, dostatek munice a žádné překážky. V režimu **Puzzle** lze hrát levely 1 až 10, ve kterých je třeba zničit povinné cíle a přistát. Levely 3 až 9 přidávají pohyblivé cíle; desátý level má osm statických cílů v husté síti překážek. **Arcade** je hratelné: každá hra vygeneruje náhodnou mapu, hráč sestřeluje nepřátelská letadla a sbírá skóre. Campaign a Multiplayer mají zatím jen obrazovky s návrhem nastavení; jejich spuštění, větvení kampaně a multiplayer nejsou implementované.
+
+Levely jsou definované v `levels/*.yaml`. Tři výcvikové levely mají 999 jednotek paliva, žádné překážky a první z nich neobsahuje cíle. Každý z prvních sedmi puzzle levelů obsahuje o 10 % více paliva než původní zásoba (zaokrouhleno nahoru): postupně 18, 27, 18, 22, 26, 25 a 29 jednotek. Osmý level má 36 jednotek paliva a čtyři cíle na mapě 25 × 25. Devátý má mapu 31 × 31, 38 jednotek paliva, šest cílů a další překážky. Desátý používá stejně velkou mapu, 70 jednotek paliva, osm statických cílů rozmístěných po dvou u každého rohu a hustou síť 61 překážek, kterou je třeba prolétat. Při úspěšném přistání se zbývající palivo přičte ke skóre; nejlepší skóre každého puzzle levelu se ukládá v prohlížeči a zobrazuje v nabídce Puzzle. První mise má horské štíty tvořící průletový koridor severně od letiště. Druhý level má dva sklady na opačných stranách mapy a překážky v podobě hor, mrakodrapů a větrných elektráren. Levely 3 až 5 procvičují sestřelování pohyblivých aut. Šestý level má mapu 25 × 25 s jezerem na severovýchodě a lodí, která je obkružuje po osmi bodech. Sedmý level zachovává velikost mapy, přesouvá jezero na západ a vyžaduje zničení domu, lodi a auta jedoucího na sever. Osmý rozmísťuje čtyři cíle do různých částí mapy a rozšiřuje počet překážek; devátý tuto sestavu zrcadlí a přidává dvě statické lokace v jihovýchodním rohu. Arcade mapy se vytvářejí při startu hry, obsahují až 36 náhodně rozmístěných překážek a čtyři nepřátelská letadla. AI má tři úrovně: lehká manévruje náhodně, střední pronásleduje hráče a těžká předvídá jeho směr. Stíhačky se samy nestřílí; zničení jedné přidá 3 body a po krátké prodlevě se objeví náhradní. Nejvyšší arcade skóre se ukládá v prohlížeči. Při nasazení na GitHub Pages hra načítá YAML soubory. Při přímém otevření `index.html` z disku použije výchozí definice vložené v aplikaci, protože prohlížeče přes `file://` nedovolují stránce načítat další soubory. Soubor `yaml.js` zajišťuje čtení a export běžné blokové YAML syntaxe bez externích knihoven.
+
+### Arcade
+
+- Každý běh má mapu určenou seedem. Seed zadej v nabídce Arcade; stejné znaky vytvoří stejné překážky a rozložení cílů. Necháš-li pole prázdné, hra vygeneruje seed automaticky a zobrazí ho i během hry.
+- Běh končí havárií. Tlačítko **Zpět** se v Arcade nezobrazuje. Zásoby se spotřebovávají během letu; po přistání se doplní na 50 paliva a 10 kusů munice, takže lze pokračovat v témže běhu.
+- Skóre se sbírá za statické cíle, projíždějící auta a nákladní vůz, člun i nepřátelská letadla. Nejvyšší skóre se ukládá v tomto prohlížeči.
+- Čtyři stíhačky řízené AI manévrují podle zvolené obtížnosti. Mohou havarovat o překážky, opustit mapu nebo se srazit s hráčem; zničené či havarované stíhačky se průběžně nahrazují.
 
 ### Pohyb, vzlet a přistání
 
-- Letadlo začíná uprostřed pět polí dlouhé vodorovné dráhy. Před prvním tahem lze změnit její orientaci.
-- Obrys možností pohybu má rozměr 2 × 2 polí. Kliknutím nebo klepnutím lze zvolit jeden z devíti průsečíků kolem předpokládaného bodu dalšího tahu. Vektor tahu se přenáší na aktuální pozici; letadlo za sebou kreslí stopu.
+- Letadlo začíná uprostřed pět polí dlouhé vodorovné dráhy.
+- Obrys možností pohybu má rozměr 2 × 2 polí a je vystředěný na předpokládaném bodě dalšího tahu. Kliknutím nebo klepnutím vyber jeden z devíti průsečíků: střed pokračuje stejným vektorem jako minule, okolní body kurz upraví. Vybraný bod je cílová pozice letadla, ne změna vektoru. Letadlo se plynule přesune a za sebou kreslí stopu.
 - V BASICu se výška nemění. V ADVANCE lze při podržení a tažení na vybraném bodu změnit výšku o jeden stupeň nahoru nebo dolů. Výška je omezena na 0 až 10; výška 0 mimo letiště znamená havárii.
-- Vzlet probíhá z letiště zrychlením. Let rychlostí 1 mimo bezpečné přistání znamená havárii. Přistání vyžaduje zpomalení z rychlosti 2 na 1 ve směru dráhy a následné zastavení na dráze.
+- Vzlet probíhá z letiště zrychlením. Let rychlostí 1 mimo bezpečné přistání znamená havárii. Přistání má dva tahy: při rychlosti 2 na dráze zpomal na rychlost 1 ve směru dráhy, v dalším tahu zastav na dráze. I zastavení je tah a spotřebuje palivo.
 - Pohyb letadla je animovaný a kamera jej sleduje. Ovládání funguje myší i dotykem; plochu lze posouvat a přibližovat. Tlačítko **Celá cesta** zobrazí trasu.
-- Hranice mapy jsou na souřadnicích −15 až +15. Jejich překročení znamená konec hry.
+- Hranice mapy jsou definované v YAML levelu. Jejich překročení znamená konec hry.
 
 ### Střelba, cíle a kolize
 
 - Tlačítko **FIRE** přepne do režimu střelby. Útočná výseč má dostřel 3 pole a šířku 3 pole na konci. Výběr cíle zároveň posune letadlo vpřed podle předchozího vektoru.
-- Domek má hodnotu 1 bod; auta, nákladní auta a loď jsou pohyblivé cíle za 2 body. Pohyblivé cíle se po tahu posunou podle svého vektoru. V aktuálním levelu jejich opuštění mapy samo o sobě neukončuje hru.
-- Hora má výšku 5, mrakodrap 3 a větrná elektrárna 2. Letadlo havaruje, když jeho dráha narazí do grafiky překážky, která dosahuje do jeho letové výšky. Domek má výšku 0. Strategické cíle za 10 bodů a zásah jiného letadla za 3 body jsou připravené hodnoty; takové cíle zatím nejsou součástí hratelného levelu.
-- Level začíná s 999 palivovými jednotkami a 999 kusy munice. Každý tah spotřebuje jedno palivo; po jeho vyčerpání letadlo havaruje. Při nulové munici nelze střílet.
+- Cíle a jejich bodové hodnoty určuje YAML levelu. Pohyblivé cíle se po tahu posunou podle svého vektoru; povinné cíle musí být zničeny před přistáním. Pokud level nastaví pro útěk cílů prohru, opuštění mapy kterýmkoli aktivním pohyblivým cílem okamžitě ukončí misi.
+- Hora má výšku 5, mrakodrap 3 a větrná elektrárna 2. Letadlo havaruje, když jeho dráha narazí do grafiky překážky, která dosahuje do jeho letové výšky. Domek má výšku 0. První mise obsahuje sklad znázorněný grafikou domku, který se počítá jako strategický cíl za 10 bodů. V Arcade se objevují nepřátelská letadla za 3 body.
+- Každý tah spotřebuje jedno palivo; po jeho vyčerpání letadlo havaruje. Při nulové munici nelze střílet.
 
 ### Počasí
 
-Počasí lze zvolit před prvním tahem. Výchozí je **Slunečno**.
+Pokud to level dovoluje, lze počasí zvolit před prvním tahem. Výchozí je **Slunečno**. První puzzle počasí zamyká.
 
 - **Noc:** viditelnost tvoří výseč před letadlem, dlouhá 5 polí a široká 3 pole na konci.
 - **Bouřka:** viditelnost je omezena na kruh o poloměru 5 polí.
@@ -39,8 +48,8 @@ Počasí lze zvolit před prvním tahem. Výchozí je **Slunečno**.
 ### Ovládání a ukládání
 
 - **Zpět** vrátí poslední tah včetně spotřeby paliva, munice, skóre a stavu pohyblivých cílů.
-- **↻** otevře potvrzení restartu levelu; tlačítko ☰ otevře hlavní menu.
-- Rozpracovaná hra i volby se ukládají v `localStorage` prohlížeče na daném zařízení.
+- **↻** otevře potvrzení restartu levelu. Tlačítko ☰ zruší rozehranou hru a otevře hlavní menu.
+- Po havárii nebo selhání mise se zobrazí přímá volba restartu nebo návratu do submenu aktuálního režimu. Nové otevření stránky začne vždy v menu.
 
 ## Editor levelů
 
@@ -53,22 +62,20 @@ V editoru lze:
 - Vkládat objekty: domky, hory, mrakodrapy, větrné elektrárny, letiště s nastavitelným směrem a délkou, letadlové lodě, nepřátelská letadla, vozidla, lodě a strategické cíle. Objekt lze vybrat klepnutím a odstranit tlačítkem nebo gumou.
 - Přidávat typy letadel s vlastním názvem, rozměrem obrysu, změnou výšky za tah, dostřelem, municí a pohyblivostí. Výchozí typ je F-16.
 - Generovat náhodnou mapu. Hustota určuje přibližný počet překážek na 100 polí. Generátor vytvoří letiště uprostřed mapy, náhodné překážky a terén a nastavený počet nepřátelských letadel.
-- Exportovat level do JSON, zkopírovat jeho JSON do schránky nebo načíst JSON ze souboru.
+- Exportovat level do YAML, zkopírovat jej do schránky nebo načíst YAML ze souboru.
 
-Exportovaná data obsahují verzi schématu, rozměry mřížky, počet hráčů, režimy, objekty, typy letadel a nastavení generátoru. **Herní aplikace zatím exportované levely nenačítá**; editor tedy slouží k tvorbě a ukládání dat, která bude potřeba následně propojit s herním runtime.
+Exportovaná data editoru obsahují verzi schématu, rozměry mřížky, počet hráčů, režimy, objekty, typy letadel a nastavení generátoru. Jejich struktura se zatím liší od runtime formátu `levels/*.yaml`, takže export editoru zatím nelze rovnou spustit ve hře.
 
 ## Co lze ručně vyzkoušet
 
 1. Otevři hlavní menu, vyber Puzzle → level 1 a proveď vzlet z vodorovné dráhy.
-2. Vyzkoušej výběr bodů myší nebo dotykem, posun a přiblížení mapy, vrácení tahu a restart.
-3. Přepni mezi BASIC a ADVANCE ještě před prvním tahem; v ADVANCE podrž bod a táhni nahoru nebo dolů.
-4. Změň počasí před prvním tahem a porovnej viditelnost. Ve větru ověř, že tah z dráhy nebo na dráhu není odkloněn.
-5. Zapni střelbu, přibliž se k cíli a zkus zasáhnout objekt v útočné výseči.
-6. Otevři `editor.html`, změň velikost mapy, umísti objekty, vytvoř typ letadla, vygeneruj mapu a exportuj JSON.
+2. Obleť horu, znič sklad paliva ve střeleckém režimu a vrať se přistát.
+3. Vyzkoušej výběr bodů myší nebo dotykem, posun a přiblížení mapy, vrácení tahu a restart.
+4. Otevři `editor.html`, změň velikost mapy, umísti objekty, vytvoř typ letadla, vygeneruj mapu a exportuj YAML.
 
 ## Soubory
 
-- `index.html`, `style.css`, `app.js` – hra a její hlavní menu.
+- `index.html`, `style.css`, `app.js`, `yaml.js` – hra, hlavní menu a práce s YAML.
 - `editor.html`, `editor.css`, `editor.js` – samostatný editor a generátor levelů.
 - `manifest.webmanifest`, `sw.js` – instalace jako webová aplikace a offline cache.
 

@@ -13,7 +13,7 @@
     <header class="editor-header">
       <a class="editor-brand" href="./index.html" aria-label="Zpět do hry"><span>▦</span> Basttle!</a>
       <div><p>TVORBA OBSAHU</p><h1>Editor levelů</h1></div>
-      <div class="header-actions"><button id="newLevel" type="button">Nový level</button><button id="exportLevel" class="primary" type="button">Export JSON</button></div>
+      <div class="header-actions"><button id="newLevel" type="button">Nový level</button><button id="exportLevel" class="primary" type="button">Export YAML</button></div>
     </header>
     <div class="editor-layout">
       <section class="workspace" aria-label="Plátno editoru">
@@ -70,13 +70,14 @@
 
         <section class="panel-card file-card">
           <div class="panel-title"><span>04</span><h2>Level data</h2></div>
-          <button id="copyJson" type="button">Kopírovat JSON</button>
-          <label class="import-button">Načíst JSON ze souboru<input id="importLevel" type="file" accept="application/json,.json"></label>
-          <textarea id="jsonOutput" readonly aria-label="JSON levelu" hidden></textarea>
+          <button id="copyYaml" type="button">Kopírovat YAML</button>
+          <label class="import-button">Načíst YAML ze souboru<input id="importLevel" type="file" accept="application/yaml,.yaml,.yml,text/yaml"></label>
+          <textarea id="yamlOutput" readonly aria-label="YAML levelu" hidden></textarea>
         </section>
       </aside>
     </div>
   </main>
+  <script src="yaml.js"></script>
   <script src="editor.js"></script>
 </body>
 </html>

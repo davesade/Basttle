@@ -1,0 +1,107 @@
+schemaVersion: 1
+id: puzzle-03
+name: Únikové auto
+modes:
+  - puzzle
+flightMode: basic
+flightModeLocked: true
+weather: sunny
+weatherLocked: true
+bounds:
+  minX: -9
+  maxX: 9
+  minY: -8
+  maxY: 8
+resources:
+  fuel: 18
+  ammo: 2
+runways:
+  - id: runway-1
+    center:
+      x: 0
+      y: 0
+    axis: horizontal
+    length: 5
+    fixed: true
+players:
+  - id: player-1
+    name: Hráč
+    aircraft:
+      - id: aircraft-1
+        name: F-16
+        start:
+          x: 0
+          y: 0
+        runwayId: runway-1
+targets: []
+movingTargets:
+  - id: getaway-car
+    kind: car
+    name: Únikové auto
+    position:
+      x: 5
+      y: 1
+    movementVector:
+      x: 1
+      y: 0
+    altitude: 0
+    points: 2
+    required: true
+rules:
+  movingTargetEscapeIsLoss: true
+obstacles:
+  - id: ridge-north
+    name: hora
+    altitude: 5
+    polygon:
+      - x: -3.5
+        y: 2.7
+      - x: -2.7
+        y: 4
+      - x: -1.9
+        y: 2.7
+  - id: tower-west
+    name: mrakodrap
+    altitude: 3
+    polygon:
+      - x: -6.8
+        y: -5.8
+      - x: -5.7
+        y: -5.8
+      - x: -5.7
+        y: -3.6
+      - x: -6.8
+        y: -3.6
+  - id: windfarm-south
+    name: větrná elektrárna
+    altitude: 2
+    lines:
+      - from:
+          x: 3.2
+          y: -6.5
+        to:
+          x: 3.2
+          y: -5.4
+        width: 0.16
+      - from:
+          x: 2.6
+          y: -5.4
+        to:
+          x: 3.8
+          y: -5.4
+        width: 0.14
+      - from:
+          x: 2.7
+          y: -6
+        to:
+          x: 3.7
+          y: -5.1
+        width: 0.14
+      - from:
+          x: 3.7
+          y: -6
+        to:
+          x: 2.7
+          y: -5.1
+        width: 0.14
+decorations: []
